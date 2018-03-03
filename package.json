@@ -1,0 +1,20 @@
+{
+  "name": "@websanova/vue-dot",
+  "description": "Specialized dot notation get, set deep merge for vue.js objects.",
+  "keywords": ["vue", "vue.js", "dot", "object", "notation", "get", "set", "deep", "merge", "deepmerge"],
+  "author": {
+    "name": "Websanova",
+    "url": "http://websanova.com",
+    "username": "websanova",
+    "email": "rob@websanova.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/websanova/vue-dot"
+  },
+  "licenses": "MIT, GPL",
+  "main": "src/index.js",
+  "version": "0.1.1",
+  "dependencies": {},
+  "devDependencies": {}
+}
