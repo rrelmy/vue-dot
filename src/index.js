@@ -45,7 +45,7 @@ function _set(key, val, tgt) {
             Vue.set(tgt, path[i], {});
         }
 
-        tgt = tgt[i];
+        tgt = tgt[path[i]];
     }
 
     if (_isObj(tgt[key]) && _isObj(val)) {
