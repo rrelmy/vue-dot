@@ -29,13 +29,12 @@ function _merge(tgt, src) {
  * @param Object tgt
  */
 function _set(key, val, tgt) {
-    var i, ii, obj;
+    var i, ii;
 
     if ( ! key) {
         return undefined;
     }
 
-    obj = tgt;
     path = key.split('.');
 
     key = path.pop();
@@ -63,7 +62,7 @@ function _set(key, val, tgt) {
  * @param String key
  */
 function _get(key, tgt) {
-    var i, ii, obj;
+    var i, ii;
 
     if ( ! key) {
         return undefined;
