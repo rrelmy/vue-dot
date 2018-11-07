@@ -24,9 +24,9 @@ function _merge(tgt, src) {
 /**
  * Set a target field with dot notation key/val.
  * 
- * @param String key
- * @param Mixed val
- * @param Object tgt
+ * @param {String} key
+ * @param {*} val
+ * @param {Object} tgt
  */
 function _set(key, val, tgt) {
     var i, ii;
@@ -59,7 +59,8 @@ function _set(key, val, tgt) {
 /**
  * Get a target field with dot notation key.
  * 
- * @param String key
+ * @param {String} key
+ * @param {Object} tgt
  */
 function _get(key, tgt) {
     var i, ii;
