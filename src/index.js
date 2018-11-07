@@ -54,7 +54,7 @@ function _set(key, val, tgt) {
         return;
     }
 
-    tgt[key] = val;
+    Vue.set(tgt, key, val);
 }
 
 /**
