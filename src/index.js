@@ -1,3 +1,4 @@
+var arrayMatchRegex = /([^\[]+)\[(\d+)]$/;
 
 function _isObj(val) {
     if (val !== null && typeof val === 'object' && val.constructor !== Array ) {
@@ -39,12 +40,26 @@ function _set(key, val, tgt) {
 
     key = path.pop();
 
-    for (i = 0, ii = path.length; i < ii; i++) {
-        if (!tgt[path[i]]) {
-            Vue.set(tgt, path[i], {});
-        }
 
-        tgt = tgt[path[i]];
+    for (i = 0, ii = path.length; i < ii; i++) {
+        var arrayMatch = path[i].match(arrayMatchRegex);
+        if (arrayMatch && arrayMatch.length > 2) {
+            var propertyName = arrayMatch[1];
+            var arrayIndex = arrayMatch[2];
+
+            if (!tgt[propertyName]) {
+                Vue.set(tgt, propertyName, {});
+            }
+            if (!tgt[propertyName][parseInt(arrayIndex)]) {
+                Vue.set(tgt[propertyName], arrayIndex, {});
+            }
+            tgt = tgt[propertyName][parseInt(arrayIndex)];
+        } else {
+            if (!tgt[path[i]]) {
+                Vue.set(tgt, path[i], {});
+            }
+            tgt = tgt[path[i]];
+        }
     }
 
     if (_isObj(tgt[key]) && _isObj(val)) {
@@ -72,11 +87,24 @@ function _get(key, tgt) {
     path = key.split('.');
 
     for (i = 0, ii = path.length; i < ii; i++) {
-        if (!tgt[path[i]]) {
-            return tgt[path[i]];
-        }
+        var arrayMatch = path[i].match(arrayMatchRegex);
+        if (arrayMatch && arrayMatch.length > 2) {
+            var propertyName = arrayMatch[1];
+            var arrayIndex = arrayMatch[2];
 
-        tgt = tgt[path[i]];
+            if (!tgt[propertyName]) {
+               return tgt[propertyName];
+            }
+            if (!tgt[propertyName][parseInt(arrayIndex)]) {
+                return tgt[propertyName][parseInt(arrayIndex)];
+            }
+            tgt = tgt[propertyName][parseInt(arrayIndex)];
+        } else {
+            if (!tgt[path[i]]) {
+                return tgt[path[i]];
+            }
+            tgt = tgt[path[i]];
+        }
     }
 
     return tgt;
