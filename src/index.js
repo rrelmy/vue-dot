@@ -1,3 +1,4 @@
+var arrayMatchRegex = /([^\[]+)\[(\d+)]$/;
 
 function _isObj(val) {
     if (val !== null && typeof val === 'object' && val.constructor !== Array ) {
@@ -39,12 +40,23 @@ function _set(key, val, tgt) {
 
     key = path.pop();
 
-    for (i = 0, ii = path.length; i < ii; i++) {
-        if (!tgt[path[i]]) {
-            Vue.set(tgt, path[i], {});
-        }
 
-        tgt = tgt[path[i]];
+    for (i = 0, ii = path.length; i < ii; i++) {
+        var arrayMatch = path[i].match(arrayMatchRegex);
+        if (arrayMatch && arrayMatch.length > 2) {
+            if (!tgt[arrayMatch[1]]) {
+                Vue.set(tgt, arrayMatch[1], {});
+            }
+            if (!tgt[arrayMatch[1]][parseInt(arrayMatch[2])]) {
+                Vue.set(tgt[arrayMatch[1]], arrayMatch[2], {});
+            }
+            tgt = tgt[arrayMatch[1]][parseInt(arrayMatch[2])];
+        } else {
+            if (!tgt[path[i]]) {
+                Vue.set(tgt, path[i], {});
+            }
+            tgt = tgt[path[i]];
+        }
     }
 
     if (_isObj(tgt[key]) && _isObj(val)) {
@@ -72,11 +84,21 @@ function _get(key, tgt) {
     path = key.split('.');
 
     for (i = 0, ii = path.length; i < ii; i++) {
-        if (!tgt[path[i]]) {
-            return tgt[path[i]];
+        var arrayMatch = path[i].match(arrayMatchRegex);
+        if (arrayMatch && arrayMatch.length > 2) {
+            if (!tgt[arrayMatch[1]]) {
+               return tgt[arrayMatch[1]];
+            }
+            if (!tgt[arrayMatch[1]][parseInt(arrayMatch[2])]) {
+                return tgt[arrayMatch[1]][parseInt(arrayMatch[2])];
+            }
+            tgt = tgt[arrayMatch[1]][parseInt(arrayMatch[2])];
+        } else {
+            if (!tgt[path[i]]) {
+                return tgt[path[i]];
+            }
+            tgt = tgt[path[i]];
         }
-
-        tgt = tgt[path[i]];
     }
 
     return tgt;
