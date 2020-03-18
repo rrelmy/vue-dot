@@ -44,13 +44,16 @@ function _set(key, val, tgt) {
     for (i = 0, ii = path.length; i < ii; i++) {
         var arrayMatch = path[i].match(arrayMatchRegex);
         if (arrayMatch && arrayMatch.length > 2) {
-            if (!tgt[arrayMatch[1]]) {
-                Vue.set(tgt, arrayMatch[1], {});
+            var propertyName = arrayMatch[1];
+            var arrayIndex = arrayMatch[2];
+
+            if (!tgt[propertyName]) {
+                Vue.set(tgt, propertyName, {});
             }
-            if (!tgt[arrayMatch[1]][parseInt(arrayMatch[2])]) {
-                Vue.set(tgt[arrayMatch[1]], arrayMatch[2], {});
+            if (!tgt[propertyName][parseInt(arrayIndex)]) {
+                Vue.set(tgt[propertyName], arrayIndex, {});
             }
-            tgt = tgt[arrayMatch[1]][parseInt(arrayMatch[2])];
+            tgt = tgt[propertyName][parseInt(arrayIndex)];
         } else {
             if (!tgt[path[i]]) {
                 Vue.set(tgt, path[i], {});
@@ -86,13 +89,16 @@ function _get(key, tgt) {
     for (i = 0, ii = path.length; i < ii; i++) {
         var arrayMatch = path[i].match(arrayMatchRegex);
         if (arrayMatch && arrayMatch.length > 2) {
-            if (!tgt[arrayMatch[1]]) {
-               return tgt[arrayMatch[1]];
+            var propertyName = arrayMatch[1];
+            var arrayIndex = arrayMatch[2];
+
+            if (!tgt[propertyName]) {
+               return tgt[propertyName];
             }
-            if (!tgt[arrayMatch[1]][parseInt(arrayMatch[2])]) {
-                return tgt[arrayMatch[1]][parseInt(arrayMatch[2])];
+            if (!tgt[propertyName][parseInt(arrayIndex)]) {
+                return tgt[propertyName][parseInt(arrayIndex)];
             }
-            tgt = tgt[arrayMatch[1]][parseInt(arrayMatch[2])];
+            tgt = tgt[propertyName][parseInt(arrayIndex)];
         } else {
             if (!tgt[path[i]]) {
                 return tgt[path[i]];
