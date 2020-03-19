@@ -40,20 +40,19 @@ function _set(key, val, tgt) {
 
     key = path.pop();
 
-
     for (i = 0, ii = path.length; i < ii; i++) {
         var arrayMatch = path[i].match(arrayMatchRegex);
         if (arrayMatch && arrayMatch.length > 2) {
             var propertyName = arrayMatch[1];
-            var arrayIndex = arrayMatch[2];
+            var arrayIndex = parseInt(arrayMatch[2]);
 
             if (!tgt[propertyName]) {
-                Vue.set(tgt, propertyName, {});
+                Vue.set(tgt, propertyName, []);
             }
-            if (!tgt[propertyName][parseInt(arrayIndex)]) {
+            if (!tgt[propertyName][arrayIndex]) {
                 Vue.set(tgt[propertyName], arrayIndex, {});
             }
-            tgt = tgt[propertyName][parseInt(arrayIndex)];
+            tgt = tgt[propertyName][arrayIndex];
         } else {
             if (!tgt[path[i]]) {
                 Vue.set(tgt, path[i], {});
@@ -62,13 +61,26 @@ function _set(key, val, tgt) {
         }
     }
 
-    if (_isObj(tgt[key]) && _isObj(val)) {
-        _merge(tgt[key], val);
+    var keyArrayMatch = key.match(arrayMatchRegex);
 
-        return;
+    if (keyArrayMatch && keyArrayMatch.length > 2) {
+        var propertyName = keyArrayMatch[1];
+        var arrayIndex = parseInt(keyArrayMatch[2]);
+
+        if (!tgt[propertyName]) {
+            Vue.set(tgt, propertyName, []);
+        }
+
+        Vue.set(tgt[propertyName], arrayIndex, val);
+    } else {
+        if (_isObj(tgt[key]) && _isObj(val)) {
+            _merge(tgt[key], val);
+
+            return;
+        }
+
+        Vue.set(tgt, key, val);
     }
-
-    Vue.set(tgt, key, val);
 }
 
 /**
@@ -90,15 +102,15 @@ function _get(key, tgt) {
         var arrayMatch = path[i].match(arrayMatchRegex);
         if (arrayMatch && arrayMatch.length > 2) {
             var propertyName = arrayMatch[1];
-            var arrayIndex = arrayMatch[2];
+            var arrayIndex = parseInt(arrayMatch[2]);
 
             if (!tgt[propertyName]) {
                return tgt[propertyName];
             }
-            if (!tgt[propertyName][parseInt(arrayIndex)]) {
-                return tgt[propertyName][parseInt(arrayIndex)];
+            if (!tgt[propertyName][arrayIndex]) {
+                return tgt[propertyName][arrayIndex];
             }
-            tgt = tgt[propertyName][parseInt(arrayIndex)];
+            tgt = tgt[propertyName][arrayIndex];
         } else {
             if (!tgt[path[i]]) {
                 return tgt[path[i]];
