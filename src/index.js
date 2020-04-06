@@ -1,4 +1,4 @@
-const Vue = require('Vue');
+const Vue = require('vue');
 
 var arrayMatchRegex = /([^\[]+)\[(\d+)]$/;
 
