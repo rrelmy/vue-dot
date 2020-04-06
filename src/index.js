@@ -1,3 +1,5 @@
+const Vue = require('Vue');
+
 var arrayMatchRegex = /([^\[]+)\[(\d+)]$/;
 
 function _isObj(val) {
@@ -24,7 +26,7 @@ function _merge(tgt, src) {
 
 /**
  * Set a target field with dot notation key/val.
- * 
+ *
  * @param {String} key
  * @param {*} val
  * @param {Object} tgt
@@ -85,7 +87,7 @@ function _set(key, val, tgt) {
 
 /**
  * Get a target field with dot notation key.
- * 
+ *
  * @param {String} key
  * @param {Object} tgt
  */
