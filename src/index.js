@@ -1,4 +1,4 @@
-const Vue = require('vue');
+const Vue = require('vue').default || require('vue'); // Ugly hack to support any type of environment
 
 var arrayMatchRegex = /([^\[]+)\[(\d+)]$/;
 
