@@ -38,7 +38,7 @@ function _set(key, val, tgt) {
         return undefined;
     }
 
-    path = key.split('.');
+    var path = key.split('.');
 
     key = path.pop();
 
@@ -98,7 +98,7 @@ function _get(key, tgt) {
         return undefined;
     }
 
-    path = key.split('.');
+    var path = key.split('.');
 
     for (i = 0, ii = path.length; i < ii; i++) {
         var arrayMatch = path[i].match(arrayMatchRegex);
